@@ -82,19 +82,19 @@ namespace WebsiteBackend::Core
             "WEBSITE_BACKEND",
              LogType::LOG_INFO);
 
-        Connect::AddRoute("/");
+        ServerCore::AddRoute("/");
 
-        Connect::AddBlacklistedKeyword("/wp-");
-        Connect::AddBlacklistedKeyword("/user");
-        Connect::AddBlacklistedKeyword("/login");
-        Connect::AddBlacklistedKeyword("/admin");
-        Connect::AddBlacklistedKeyword(".php");
-        Connect::AddBlacklistedKeyword(".env");
-        Connect::AddBlacklistedKeyword(".git");
-        Connect::AddBlacklistedKeyword(".json");
-        Connect::AddBlacklistedKeyword(".sql");
-        Connect::AddBlacklistedKeyword(".sh");
-        Connect::AddBlacklistedKeyword("bin");
+        ServerCore::AddBlacklistedKeyword("/wp-");
+        ServerCore::AddBlacklistedKeyword("/user");
+        ServerCore::AddBlacklistedKeyword("/login");
+        ServerCore::AddBlacklistedKeyword("/admin");
+        ServerCore::AddBlacklistedKeyword(".php");
+        ServerCore::AddBlacklistedKeyword(".env");
+        ServerCore::AddBlacklistedKeyword(".git");
+        ServerCore::AddBlacklistedKeyword(".json");
+        ServerCore::AddBlacklistedKeyword(".sql");
+        ServerCore::AddBlacklistedKeyword(".sh");
+        ServerCore::AddBlacklistedKeyword("bin");
 
         path contentPath = weakly_canonical(current_path() / ".." / ".." / "content");
 
