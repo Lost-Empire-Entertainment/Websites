@@ -47,6 +47,7 @@ using std::filesystem::current_path;
 using std::filesystem::weakly_canonical;
 using std::this_thread::sleep_for;
 using std::chrono::milliseconds;
+using std::string;
 
 static abool running(true);
 
@@ -81,6 +82,20 @@ namespace WebsiteBackend::Core
             "WEBSITE_BACKEND",
              LogType::LOG_INFO);
 
+        Connect::AddRoute("/");
+
+        Connect::AddBlacklistedKeyword("/wp-");
+        Connect::AddBlacklistedKeyword("/user");
+        Connect::AddBlacklistedKeyword("/login");
+        Connect::AddBlacklistedKeyword("/admin");
+        Connect::AddBlacklistedKeyword(".php");
+        Connect::AddBlacklistedKeyword(".env");
+        Connect::AddBlacklistedKeyword(".git");
+        Connect::AddBlacklistedKeyword(".json");
+        Connect::AddBlacklistedKeyword(".sql");
+        Connect::AddBlacklistedKeyword(".sh");
+        Connect::AddBlacklistedKeyword("bin");
+
         path contentPath = weakly_canonical(current_path() / ".." / ".." / "content");
 
         if (!exists(contentPath))
@@ -102,7 +117,7 @@ namespace WebsiteBackend::Core
         if (!ServerCore::HasInternet())
         {
             Log::Print(
-                "Server '" + ServerCore::GetServerName() + "' has no internet, cannot initialize!",
+                "Server '" + string(ServerCore::GetServerName()) + "' has no internet, cannot initialize!",
                 "WEBSITE_BACKEND",
                 LogType::LOG_ERROR,
                 2);
@@ -114,6 +129,7 @@ namespace WebsiteBackend::Core
              "website_backend",
             contentPath,
             { "thekalakit.com", "elypsoengine.com" },
+            "213.101.197.212",
             80,
             false))
         {
