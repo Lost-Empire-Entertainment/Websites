@@ -1,7 +1,6 @@
-# Default IDE stuff
+# IDE stuff
 out/
 build/
-server/build/
 .vs/
 .vscode/
 .cache/
@@ -17,3 +16,6 @@ compile_commands.json
 *.exe
 *.ilk
 *.log
+
+# This project
+/server/build/
