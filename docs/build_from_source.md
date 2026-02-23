@@ -33,4 +33,4 @@ and make sure these are toggled on at the right side panel:
 
 Presetname can be windows-debug, windows-release, linux-debug or linux-release.
 
-The compiled executable/binary/cli and its files will be placed to `build/` inside the folder with the name of the preset you chose.
+The compiled executable/binary/cli and its files will be placed to `server/build/` inside the folder with the name of the preset you chose.

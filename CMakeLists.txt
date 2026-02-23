@@ -111,22 +111,11 @@ else()
 endif()
 
 if (WIN32)
-	if (IS_RELEASE)
-		file(GLOB BIN_FILES
+	file(GLOB BIN_FILES
 			"${BIN_KALASERVER}/*.dll"
 		)
-	else()
-		file(GLOB BIN_FILES
-			"${BIN_KALASERVER}/*.dll"
-		)
-	endif()
 else()
-	if (IS_RELEASE)
-		file(GLOB BIN_FILES
-			"${BIN_KALASERVER}/*.so"
-		)
-	else()
-		file(GLOB BIN_FILES
+	file(GLOB BIN_FILES
 			"${BIN_KALASERVER}/*.so"
 		)
 	endif()
@@ -143,26 +132,7 @@ foreach(BIN_FILE ${BIN_FILES})
     )
 endforeach()
 
-# Copy MinGW dlls
-if (MINGW AND WIN32)
-    set(MINGW_BIN_DIR "/usr/x86_64-w64-mingw32/bin")
-
-    set(MINGW_DLLS
-        libstdc++-6.dll
-        libgcc_s_seh-1.dll
-        libwinpthread-1.dll
-    )
-
-    foreach(dll ${MINGW_DLLS})
-        add_custom_command(TARGET WebsiteBackend POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                "${MINGW_BIN_DIR}/${dll}"
-                "$<TARGET_FILE_DIR:WebsiteBackend>/${dll}"
-        )
-    endforeach()
-endif()
-
-#copy cloudflared
+# Copy cloudflared
 if (WIN32)
 	add_custom_command(TARGET WebsiteBackend POST_BUILD
 		COMMAND ${CMAKE_COMMAND} -E copy
@@ -177,3 +147,15 @@ else()
 			"$<TARGET_FILE_DIR:WebsiteBackend>/cloudflared-linux-amd64"
 	)
 endif()
+
+# Copy entire docs folder
+add_custom_command(TARGET WebsiteBackend POST_BUILD
+	COMMAND ${CMAKE_COMMAND} -E rm -rf
+		"$<TARGET_FILE_DIR:WebsiteBackend>/docs"
+	COMMAND ${CMAKE_COMMAND} -E copy_directory
+		"${CMAKE_SOURCE_DIR}/docs"
+		"$<TARGET_FILE_DIR:WebsiteBackend>/docs"
+)
+
+# Package
+include(CPack)
