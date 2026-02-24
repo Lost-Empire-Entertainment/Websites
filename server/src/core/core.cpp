@@ -37,6 +37,7 @@ using KalaServer::Server::Response;
 using KalaServer::Server::ResponseData;
 using KalaServer::Server::ResponseType;
 using KalaServer::Server::ContentType;
+using KalaServer::Server::DomainRoute;
 
 #ifdef _WIN32
 using std::wstring;
@@ -77,25 +78,6 @@ namespace WebsiteBackend::Core
         signal(SIGTERM, HandleClose);
 #endif
 
-        Log::Print(
-            "Initializing website backend",
-            "WEBSITE_BACKEND",
-             LogType::LOG_INFO);
-
-        ServerCore::AddRoute("/");
-
-        ServerCore::AddBlacklistedKeyword("/wp-");
-        ServerCore::AddBlacklistedKeyword("/user");
-        ServerCore::AddBlacklistedKeyword("/login");
-        ServerCore::AddBlacklistedKeyword("/admin");
-        ServerCore::AddBlacklistedKeyword(".php");
-        ServerCore::AddBlacklistedKeyword(".env");
-        ServerCore::AddBlacklistedKeyword(".git");
-        ServerCore::AddBlacklistedKeyword(".json");
-        ServerCore::AddBlacklistedKeyword(".sql");
-        ServerCore::AddBlacklistedKeyword(".sh");
-        ServerCore::AddBlacklistedKeyword("bin");
-
         path contentPath = weakly_canonical(current_path() / ".." / ".." / "content");
 
         if (!exists(contentPath))
@@ -135,6 +117,25 @@ namespace WebsiteBackend::Core
         {
             exit(1);
         }
+
+        ServerCore::AddRoute( 
+            {
+                .domain = "thekalakit.com",
+                .route = "/",
+                .routePath = "."  
+            });
+
+        ServerCore::AddBlacklistedKeyword("/wp-");
+        ServerCore::AddBlacklistedKeyword("/user");
+        ServerCore::AddBlacklistedKeyword("/login");
+        ServerCore::AddBlacklistedKeyword("/admin");
+        ServerCore::AddBlacklistedKeyword(".php");
+        ServerCore::AddBlacklistedKeyword(".env");
+        ServerCore::AddBlacklistedKeyword(".git");
+        ServerCore::AddBlacklistedKeyword(".json");
+        ServerCore::AddBlacklistedKeyword(".sql");
+        ServerCore::AddBlacklistedKeyword(".sh");
+        ServerCore::AddBlacklistedKeyword("bin");
 
         if (ServerCore::IsCloudflareRequired())
         {
