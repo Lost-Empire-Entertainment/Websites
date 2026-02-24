@@ -118,7 +118,6 @@ else()
 	file(GLOB BIN_FILES
 			"${BIN_KALASERVER}/*.so"
 		)
-	endif()
 endif()
 
 set(BIN_TARGET_DIR "$<TARGET_FILE_DIR:WebsiteBackend>")
