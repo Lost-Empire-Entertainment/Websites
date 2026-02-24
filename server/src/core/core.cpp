@@ -32,12 +32,6 @@ using KalaHeaders::KalaThread::abool;
 using KalaServer::Server::ServerCore;
 using KalaServer::Server::Cloudflare;
 using KalaServer::Server::Connect;
-using KalaServer::Server::Connection;
-using KalaServer::Server::Response;
-using KalaServer::Server::ResponseData;
-using KalaServer::Server::ResponseType;
-using KalaServer::Server::ContentType;
-using KalaServer::Server::DomainRoute;
 
 #ifdef _WIN32
 using std::wstring;

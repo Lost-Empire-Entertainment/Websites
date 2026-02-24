@@ -41,11 +41,21 @@ set(EXT_SHARED_DIR "${CMAKE_SOURCE_DIR}/server/_external_shared")
 set(EXT_KALASERVER_DIR "${EXT_SHARED_DIR}/KalaServer")
 
 if (WIN32)
+	set(CLOUDFLARED_DIR "C:\\cloudflared")
+	set(CLOUDFLARED_NAME "cloudflared-windows-amd64.exe")
+	set(CLOUDFLARED_PATH "${CLOUDFLARED_DIR}\\${CLOUDFLARED_NAME}")
+else ()
+	set(CLOUDFLARED_DIR "/home/cloudflared")
+	set(CLOUDFLARED_NAME "cloudflared-linux-amd64")
+	set(CLOUDFLARED_PATH "${CLOUDFLARED_DIR}/${CLOUDFLARED_NAME}")
+endif()
+
+if (WIN32)
 	# Library Paths
 	if(IS_RELEASE)
-		set(KALASERVER_LIBRARY_PATH "${EXT_KALASERVER_DIR}/release/libKalaServer1.dll.a")
+		set(KALASERVER_LIBRARY_PATH "${EXT_KALASERVER_DIR}/release/KalaServer1.lib")
 	else()
-		set(KALASERVER_LIBRARY_PATH "${EXT_KALASERVER_DIR}/debug/libKalaServer1d.dll.a")
+		set(KALASERVER_LIBRARY_PATH "${EXT_KALASERVER_DIR}/debug/KalaServer1d.lib")
 	endif()
 else()
 	# Library Paths
@@ -132,19 +142,16 @@ foreach(BIN_FILE ${BIN_FILES})
 endforeach()
 
 # Copy cloudflared
-if (WIN32)
+if (EXISTS "${CLOUDFLARED_PATH}")
 	add_custom_command(TARGET WebsiteBackend POST_BUILD
 		COMMAND ${CMAKE_COMMAND} -E copy
-			"${EXT_SHARED_DIR}/Cloudflared/cloudflared-windows-amd64.exe"
-			"$<TARGET_FILE_DIR:WebsiteBackend>/cloudflared-windows-amd64.exe"
+			"${CLOUDFLARED_PATH}"
+			"$<TARGET_FILE_DIR:WebsiteBackend>/${CLOUDFLARED_NAME}"
 	)
 else()
-
-	add_custom_command(TARGET WebsiteBackend POST_BUILD
-		COMMAND ${CMAKE_COMMAND} -E copy
-			"${EXT_SHARED_DIR}/Cloudflared/cloudflared-linux-amd64"
-			"$<TARGET_FILE_DIR:WebsiteBackend>/cloudflared-linux-amd64"
-	)
+	message(WARNING
+        "Cloudflared not found at ${CLOUDFLARED_PATH}. Cloudflare Tunnel support will be disabled."
+    )
 endif()
 
 # Copy entire docs folder

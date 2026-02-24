@@ -8,6 +8,10 @@ These websites are hosted with [KalaServer](https://github.com/KalaKit/KalaServe
 
 These websites are currently under construction and are not yet live 24/7 so please be patient as they are being brought up to date.
 
+# Cloudflare tunnel
+
+*KalaServer* supports Cloudflare tunnel but is not required to use it. If you wish to use Cloudflare tunnel then you must manually [download](https://github.com/cloudflare/cloudflared/releases) it and place it to C:\cloudflared or /home/cloudflared.
+
 ---
 
 ### Links
