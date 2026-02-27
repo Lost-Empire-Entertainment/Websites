@@ -130,38 +130,52 @@ else()
 		)
 endif()
 
-set(BIN_TARGET_DIR "$<TARGET_FILE_DIR:WebsiteBackend>")
+set(RUNTIME_DIR "${CMAKE_BINARY_DIR}/runtime")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${RUNTIME_DIR}")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${RUNTIME_DIR}")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${RUNTIME_DIR}")
+set(BIN_TARGET_DIR "${RUNTIME_DIR}")
 
 foreach(BIN_FILE ${BIN_FILES})
-    get_filename_component(BIN_NAME ${BIN_FILE} NAME)
-    add_custom_command(TARGET WebsiteBackend POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy
-			"${BIN_FILE}"
-			"${BIN_TARGET_DIR}/${BIN_NAME}"
-    )
+    if(EXISTS "${BIN_FILE}")
+        file(COPY
+            "${BIN_FILE}"
+            DESTINATION "${BIN_TARGET_DIR}"
+        )
+    endif()
 endforeach()
 
-# Copy cloudflared
-if (EXISTS "${CLOUDFLARED_PATH}")
-	add_custom_command(TARGET WebsiteBackend POST_BUILD
-		COMMAND ${CMAKE_COMMAND} -E copy
-			"${CLOUDFLARED_PATH}"
-			"$<TARGET_FILE_DIR:WebsiteBackend>/${CLOUDFLARED_NAME}"
-	)
-else()
-	message(WARNING
-        "Cloudflared not found at ${CLOUDFLARED_PATH}. Cloudflare Tunnel support will be disabled."
-    )
-endif()
-
-# Copy entire docs folder
-add_custom_command(TARGET WebsiteBackend POST_BUILD
-	COMMAND ${CMAKE_COMMAND} -E rm -rf
-		"$<TARGET_FILE_DIR:WebsiteBackend>/docs"
-	COMMAND ${CMAKE_COMMAND} -E copy_directory
-		"${CMAKE_SOURCE_DIR}/docs"
-		"$<TARGET_FILE_DIR:WebsiteBackend>/docs"
+# Copy important files
+set(COPY_TARGETS
+    README.md
+    LICENSE.md
+    logo.png
 )
 
-# Package
-include(CPack)
+foreach(FILE ${COPY_TARGETS})
+    if(EXISTS "${CMAKE_SOURCE_DIR}/${FILE}")
+        file(COPY
+            "${CMAKE_SOURCE_DIR}/${FILE}"
+            DESTINATION "${BIN_TARGET_DIR}"
+        )
+    endif()
+endforeach()
+
+set(RESOURCE_DIRS docs files)
+
+foreach(DIR ${RESOURCE_DIRS})
+    if(EXISTS "${CMAKE_SOURCE_DIR}/${DIR}")
+        file(REMOVE_RECURSE "${BIN_TARGET_DIR}/${DIR}")
+        file(COPY
+            "${CMAKE_SOURCE_DIR}/${DIR}"
+            DESTINATION "${BIN_TARGET_DIR}"
+        )
+    endif()
+endforeach()
+
+if(EXISTS "${CMAKE_BINARY_DIR}/compile_commands.json")
+    file(COPY
+        "${CMAKE_BINARY_DIR}/compile_commands.json"
+        DESTINATION "${CMAKE_SOURCE_DIR}"
+    )
+endif()
