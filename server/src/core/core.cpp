@@ -72,12 +72,12 @@ namespace WebsiteBackend::Core
         signal(SIGTERM, HandleClose);
 #endif
 
-        path contentPath = weakly_canonical(current_path() / ".." / ".." / "content");
+        path content = weakly_canonical(current_path() / "content");
 
-        if (!exists(contentPath))
+        if (!exists(content))
         {
             Log::Print(
-                "Failed to find content path '" + contentPath.string() + "'!",
+                "Failed to find content folder!",
                 "WEBSITE_BACKEND",
                 LogType::LOG_ERROR,
                 2);
@@ -86,7 +86,7 @@ namespace WebsiteBackend::Core
         }
 
         Log::Print(
-            "Found content path '" + contentPath.string() + "'",
+            "Found content folder '" + content.string() + "'",
             "WEBSITE_BACKEND",
             LogType::LOG_INFO);
 
@@ -103,7 +103,7 @@ namespace WebsiteBackend::Core
 
         if (!ServerCore::Initialize(
              "website_backend",
-            contentPath,
+            content,
             { "thekalakit.com", "elypsoengine.com" },
             "213.101.197.212",
             80,
@@ -116,6 +116,13 @@ namespace WebsiteBackend::Core
             {
                 .domain = "thekalakit.com",
                 .route = "/",
+                .routePath = "."  
+            });
+
+        ServerCore::AddRoute( 
+            {
+                .domain = "elypsoengine.com",
+                .route = "/112233",
                 .routePath = "."  
             });
 

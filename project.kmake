@@ -1,0 +1,45 @@
+//Build script for use with kalamake. Read more at https://github.com/kalakit/kalamake
+
+#version 1.0
+
+#include
+ks: "server/_external_shared/KalaServer/include"
+kh: "server/_external_shared"
+
+#global
+compilerlauncher: ccache
+binaryname: website_backend
+standard: c++20
+binarytype: executable
+sources: "server/src"
+headers: "server/include", #ks, #kh
+warninglevel: normal
+customflags: export-compile-commands
+
+#profile debug-windows
+compiler: clang-cl
+buildtype: debug
+buildpath: "build/debug-windows"
+links: "server/_external_shared/KalaServer/debug/KalaServer1d.lib"
+
+#profile release-windows
+compiler: clang-cl
+buildtype: minsizerel
+buildpath: "build/release-windows"
+links: "server/_external_shared/KalaServer/release/KalaServer1.lib"
+
+#profile debug-linux
+compiler: clang++
+buildtype: debug
+buildpath: "build/debug-linux"
+links: "server/_external_shared/KalaServer/debug/libKalaServer1d.so"
+postbuildaction: sudo setcap 'cap_net_bind_service=+eip' build/debug-linux/website_backend
+postbuildaction: rsync -a --delete content build/debug-linux
+
+#profile release-linux
+compiler: clang++
+buildtype: minsizerel
+buildpath: "build/release-linux"
+links: "server/_external_shared/KalaServer/release/libKalaServer1.so"
+postbuildaction: sudo setcap 'cap_net_bind_service=+eip' build/release-linux/website_backend
+postbuildaction: rsync -a --delete content build/release-linux
