@@ -12,7 +12,7 @@
 
 #include "core_utils.hpp"
 #include "thread_utils.hpp"
-#include "ks_server.hpp"
+#include "server/ks_server.hpp"
 
 namespace KalaServer::Server
 {
