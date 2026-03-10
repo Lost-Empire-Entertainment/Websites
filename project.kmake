@@ -2,44 +2,50 @@
 
 #version 1.0
 
-#include
-ks: "server/_external_shared/KalaServer/include"
-kh: "server/_external_shared"
+#references
+name_bin: website_backend
+dir_release: build/release-
+dir_debug: build/debug-
+name_ks: KalaServer1
+dir_ks_rel: server/_external_shared/KalaServer/release
+dir_ks_deb: server/_external_shared/KalaServer/debug
+comm_rsync: rsync -a --delete content
+comm_setcap: sudo setcap 'cap_net_bind_service=+eip'
 
 #global
 compilerlauncher: ccache
-binaryname: website_backend
+binaryname: ${name_bin}
 standard: c++20
 binarytype: executable
 sources: "server/src"
-headers: "server/include", #ks, #kh
+headers: "server/include", "server/_external_shared/KalaHeaders", "server/_external_shared/KalaServer/include"
 warninglevel: normal
 customflags: export-compile-commands
 
 #profile debug-windows
 compiler: clang-cl
 buildtype: debug
-buildpath: "build/debug-windows"
-links: "server/_external_shared/KalaServer/debug/KalaServer1d.lib"
+buildpath: "${dir_debug}windows"
+links: "${dir_ks_deb}/${name_ks}d.lib"
 
 #profile release-windows
 compiler: clang-cl
 buildtype: minsizerel
-buildpath: "build/release-windows"
-links: "server/_external_shared/KalaServer/release/KalaServer1.lib"
+buildpath: "${dir_release}windows"
+links: "${dir_ks_rel}/${name_ks}.lib"
 
 #profile debug-linux
 compiler: clang++
 buildtype: debug
-buildpath: "build/debug-linux"
-links: "server/_external_shared/KalaServer/debug/libKalaServer1d.so"
-postbuildaction: sudo setcap 'cap_net_bind_service=+eip' build/debug-linux/website_backend
-postbuildaction: rsync -a --delete content build/debug-linux
+buildpath: "${dir_debug}linux"
+links: "${dir_ks_deb}/lib${name_ks}d.so"
+postbuildaction: ${comm_setcap} ${dir_debug}linux/${name_bin}
+postbuildaction: ${comm_rsync} ${dir_debug}linux
 
 #profile release-linux
 compiler: clang++
 buildtype: minsizerel
-buildpath: "build/release-linux"
-links: "server/_external_shared/KalaServer/release/libKalaServer1.so"
-postbuildaction: sudo setcap 'cap_net_bind_service=+eip' build/release-linux/website_backend
-postbuildaction: rsync -a --delete content build/release-linux
+buildpath: "${dir_release}linux"
+links: "${dir_ks_rel}/lib${name_ks}.so"
+postbuildaction: ${comm_setcap} ${dir_release}linux/${name_bin}
+postbuildaction: ${comm_rsync} ${dir_release}linux

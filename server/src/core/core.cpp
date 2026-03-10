@@ -14,8 +14,8 @@
 #include <thread>
 #include <chrono>
 
-#include "KalaHeaders/log_utils.hpp"
-#include "KalaHeaders/thread_utils.hpp"
+#include "log_utils.hpp"
+#include "thread_utils.hpp"
 
 #include "server/ks_server.hpp"
 #include "server/ks_cloudflare.hpp"

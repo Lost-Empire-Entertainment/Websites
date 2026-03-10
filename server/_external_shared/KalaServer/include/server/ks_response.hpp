@@ -7,10 +7,10 @@
 
 #include <string>
 
-#include "KalaHeaders/core_utils.hpp"
-#include "KalaHeaders/thread_utils.hpp"
+#include "core_utils.hpp"
+#include "thread_utils.hpp"
 
-#include "server/ks_connect.hpp"
+#include "ks_connect.hpp"
 
 namespace KalaServer::Server
 {
