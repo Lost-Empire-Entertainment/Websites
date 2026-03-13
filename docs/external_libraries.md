@@ -13,4 +13,4 @@ These libraries are used for various purposes, their licenses are included in th
 
 | Library                                                              | Use case                                             |
 |----------------------------------------------------------------------|------------------------------------------------------|
-| [Cloudflared](https://github.com/nothings/stb)                               | Cloudflare tunnel executable for making servers without needing port forwarding.   |
+| [Cloudflared](https://github.com/nothings/stb)                       | Cloudflare tunnel executable for making servers without needing port forwarding.   |
