@@ -57,3 +57,4 @@ links: "${dir_ks_rel}/lib${name_ks}.so"
 postbuildaction: rm -rf ${dir_release}linux/content && cp -r files ${dir_release}linux
 postbuildaction: ${comm_setcap} ${dir_release}linux/${name_bin}
 postbuildaction: ${comm_rsync} ${dir_release}linux
+postbuildaction: strip --strip-unneeded ${dir_release}linux/${name_bin}
