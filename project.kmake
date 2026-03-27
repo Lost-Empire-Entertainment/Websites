@@ -7,8 +7,8 @@ name_bin: website_backend
 dir_release: build/release-
 dir_debug: build/debug-
 name_ks: kalaserver
-dir_ks_rel: server/_external_shared/KalaServer/release
-dir_ks_deb: server/_external_shared/KalaServer/debug
+dir_ks_rel: ../_cpp/external-shared/KalaServer/release
+dir_ks_deb: ../_cpp/external-shared/KalaServer/debug
 links_win: Ws2_32, Shell32, Ole32
 comm_objcopy: objcopy --remove-section .note.gnu.property
 comm_rsync: rsync -a --delete content
@@ -20,7 +20,7 @@ binaryname: ${name_bin}
 standard: c++20
 binarytype: executable
 sources: "server/src"
-headers: "server/include", "server/_external_shared/KalaHeaders", "server/_external_shared/KalaServer/include"
+headers: "server/include", "../_cpp/external-shared/KalaHeaders", "../_cpp/external-shared/KalaServer/include"
 defines: LIB_STATIC
 warninglevel: normal
 customflags: export-compile-commands, export-vscode-sln
@@ -29,7 +29,7 @@ customflags: export-compile-commands, export-vscode-sln
 compiler: clang-cl
 buildtype: debug
 buildpath: "${dir_debug}windows"
-links: ${links_win}, "${dir_ks_deb}/${name_ks}d.lib"
+links: ${links_win}, "${dir_ks_deb}/${name_ks}d.lib", todo-add-openssl
 postbuildaction: if exist "${dir_debug}windows/content" rmdir /s /q "${dir_debug}windows/content"
 postbuildaction: xcopy "content" "${dir_debug}windows/content" /e /i /y
 
@@ -37,7 +37,7 @@ postbuildaction: xcopy "content" "${dir_debug}windows/content" /e /i /y
 compiler: clang-cl
 buildtype: minsizerel
 buildpath: "${dir_release}windows"
-links: ${links_win}, "${dir_ks_rel}/${name_ks}.lib"
+links: ${links_win}, "${dir_ks_rel}/${name_ks}.lib", todo-add-openssl
 postbuildaction: if exist "${dir_release}windows/content" rmdir /s /q "${dir_release}windows/content"
 postbuildaction: xcopy "content" "${dir_release}windows/content" /e /i /y
 
@@ -45,7 +45,7 @@ postbuildaction: xcopy "content" "${dir_release}windows/content" /e /i /y
 compiler: clang++
 buildtype: debug
 buildpath: "${dir_debug}linux"
-links: "${dir_ks_deb}/lib${name_ks}d.a"
+links: ssl, crypto, "${dir_ks_deb}/lib${name_ks}d.a"
 postbuildaction: rm -rf ${dir_debug}linux/content && cp -r content ${dir_debug}linux
 postbuildaction: ${comm_setcap} ${dir_debug}linux/${name_bin}
 postbuildaction: ${comm_rsync} ${dir_debug}linux
@@ -56,7 +56,7 @@ postbuildaction: ${comm_objcopy} ${dir_debug}linux/${name_bin}
 compiler: clang++
 buildtype: minsizerel
 buildpath: "${dir_release}linux"
-links: "${dir_ks_rel}/lib${name_ks}.a"
+links: ssl, crypto, "${dir_ks_rel}/lib${name_ks}.a"
 postbuildaction: rm -rf ${dir_release}linux/content && cp -r content ${dir_release}linux
 postbuildaction: ${comm_setcap} ${dir_release}linux/${name_bin}
 postbuildaction: ${comm_rsync} ${dir_release}linux
