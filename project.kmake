@@ -7,8 +7,8 @@ name_bin: website_backend
 dir_release: build/release-
 dir_debug: build/debug-
 name_ks: kalaserver
-dir_ks_rel: ../_cpp/external-shared/KalaServer/release
-dir_ks_deb: ../_cpp/external-shared/KalaServer/debug
+dir_ks_rel: ../../cpp/external-shared/KalaServer/release
+dir_ks_deb: ../../cpp/external-shared/KalaServer/debug
 links_win: Ws2_32, Shell32, Ole32
 comm_objcopy: objcopy --remove-section .note.gnu.property
 comm_rsync: rsync -a --delete content
@@ -20,7 +20,7 @@ binaryname: ${name_bin}
 standard: c++20
 binarytype: executable
 sources: "server/src"
-headers: "server/include", "../_cpp/external-shared/KalaHeaders", "../_cpp/external-shared/KalaServer/include"
+headers: "../../cpp/external-shared/KalaHeaders", "../../cpp/external-shared/KalaServer/include"
 defines: LIB_STATIC
 warninglevel: normal
 customflags: export-compile-commands, export-vscode-sln
@@ -29,7 +29,7 @@ customflags: export-compile-commands, export-vscode-sln
 compiler: clang-cl
 buildtype: debug
 buildpath: "${dir_debug}windows"
-links: ${links_win}, "${dir_ks_deb}/${name_ks}d.lib", todo-add-openssl
+links: ${links_win}, "${dir_ks_deb}/${name_ks}d.lib"
 postbuildaction: if exist "${dir_debug}windows/content" rmdir /s /q "${dir_debug}windows/content"
 postbuildaction: xcopy "content" "${dir_debug}windows/content" /e /i /y
 
@@ -37,7 +37,7 @@ postbuildaction: xcopy "content" "${dir_debug}windows/content" /e /i /y
 compiler: clang-cl
 buildtype: minsizerel
 buildpath: "${dir_release}windows"
-links: ${links_win}, "${dir_ks_rel}/${name_ks}.lib", todo-add-openssl
+links: ${links_win}, "${dir_ks_rel}/${name_ks}.lib"
 postbuildaction: if exist "${dir_release}windows/content" rmdir /s /q "${dir_release}windows/content"
 postbuildaction: xcopy "content" "${dir_release}windows/content" /e /i /y
 
