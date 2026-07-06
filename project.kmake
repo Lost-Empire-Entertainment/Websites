@@ -26,7 +26,7 @@ warninglevel: normal
 customflags: export-compile-commands, export-vscode-sln
 
 #profile debug-windows
-compiler: clang-cl
+compiler: clang++
 buildtype: debug
 buildpath: "${dir_debug}windows"
 links: ${links_win}, "${dir_ks_deb}/${name_ks}d.lib"
@@ -34,7 +34,7 @@ postbuildaction: if exist "${dir_debug}windows/content" rmdir /s /q "${dir_debug
 postbuildaction: xcopy "content" "${dir_debug}windows/content" /e /i /y
 
 #profile release-windows
-compiler: clang-cl
+compiler: clang++
 buildtype: minsizerel
 buildpath: "${dir_release}windows"
 links: ${links_win}, "${dir_ks_rel}/${name_ks}.lib"
