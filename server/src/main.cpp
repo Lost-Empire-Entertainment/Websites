@@ -19,14 +19,11 @@
 #include "log_utils.hpp"
 
 #include "core/ks_core.hpp"
-#include "core/ks_cloudflare.hpp"
-#include "core/ks_response.hpp"
 
 using KalaHeaders::KalaLog::Log;
 using KalaHeaders::KalaLog::LogType;
 
 using KalaServer::Core::KalaServerCore;
-using KalaServer::Core::Cloudflare;
 
 #ifdef _WIN32
 using std::wstring;
@@ -55,7 +52,7 @@ BOOL WINAPI HandleClose(DWORD signal)
     return FALSE;
 }
 #else
-static void HandleClose(int)
+static void HandleClose(int sig)
 { 
     KalaServerCore::Shutdown();
     _exit(0);
@@ -93,8 +90,7 @@ int main()
         "website_backend",
         content,
         "192.168.1.102",
-        80,
-        false);
+        80);
 
     /*
     KalaServerCore::AddRoute( 
@@ -123,40 +119,6 @@ int main()
     KalaServerCore::AddBlacklistedKeyword(".sh");
     KalaServerCore::AddBlacklistedKeyword("bin");
     */
-
-    if (KalaServerCore::IsCloudflareRequired())
-    {
-#ifdef _WIN32
-        PWSTR winUserDir{};
-        SHGetKnownFolderPath(FOLDERID_Profile, 0, NULL, &winUserDir);
-
-        path userDir = path(winUserDir) / ".cloudflared";
-        CoTaskMemFree(winUserDir);
-
-        path cloudflareExePath = current_path() / "cloudflared-windows-amd64.exe";
-#else
-        path userDir = path(getenv("HOME")) / ".cloudflared";
-        path cloudflareExePath = current_path() / "cloudflared-linux-amd64";
-#endif
-
-        if (!Cloudflare::Initialize(
-            "website_backend_tunnel", 
-            cloudflareExePath, 
-            userDir))
-        {
-            exit(1);
-        }
-
-        while (!KalaServerCore::IsReady())
-        {
-            sleep_for(milliseconds(1000));
-
-            Log::Print(
-                "Waiting for Cloudflare to finish connecting...",
-                "WEBSITE_BACKEND",
-                LogType::LOG_INFO);
-        }
-    }
 
     Log::Print(
         "Website backend is ready, starting accept loop!",

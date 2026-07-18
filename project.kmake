@@ -11,7 +11,6 @@ dir_ks_rel: ../../cpp/external-shared/KalaServer/release
 dir_ks_deb: ../../cpp/external-shared/KalaServer/debug
 links_win: Ws2_32, Shell32, Ole32
 comm_objcopy: objcopy --remove-section .note.gnu.property
-comm_rsync: rsync -a --delete content
 comm_setcap: sudo setcap 'cap_net_bind_service=+eip'
 
 #global
@@ -47,10 +46,10 @@ buildtype: debug
 buildpath: "${dir_debug}linux"
 links: ssl, crypto, "${dir_ks_deb}/lib${name_ks}d.a"
 postbuildaction: rm -rf ${dir_debug}linux/content && cp -r content ${dir_debug}linux
-postbuildaction: ${comm_setcap} ${dir_debug}linux/${name_bin}
-postbuildaction: ${comm_rsync} ${dir_debug}linux
 //strips stupid avx requirements that cachyos seems to add for no reason
 postbuildaction: ${comm_objcopy} ${dir_debug}linux/${name_bin}
+//give permission to executable to use ports lower than 1024
+postbuildaction: ${comm_setcap} ${dir_debug}linux/${name_bin}
 
 #profile release-linux
 compiler: clang++
@@ -58,8 +57,8 @@ buildtype: minsizerel
 buildpath: "${dir_release}linux"
 links: ssl, crypto, "${dir_ks_rel}/lib${name_ks}.a"
 postbuildaction: rm -rf ${dir_release}linux/content && cp -r content ${dir_release}linux
-postbuildaction: ${comm_setcap} ${dir_release}linux/${name_bin}
-postbuildaction: ${comm_rsync} ${dir_release}linux
 //strips stupid avx requirements that cachyos seems to add for no reason
 postbuildaction: ${comm_objcopy} ${dir_release}linux/${name_bin}
 postbuildaction: strip --strip-unneeded ${dir_release}linux/${name_bin}
+//give permission to executable to use ports lower than 1024
+postbuildaction: ${comm_setcap} ${dir_release}linux/${name_bin}
