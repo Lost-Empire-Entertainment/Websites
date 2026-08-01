@@ -15,8 +15,9 @@ comm_setcap: sudo setcap 'cap_net_bind_service=+eip'
 
 #global
 compilerlauncher: ccache
-binaryname: ${name_bin}
+compiler: clang++
 standard: c++20
+binaryname: ${name_bin}
 binarytype: executable
 sources: "server/src"
 headers: "../../cpp/external-shared/KalaHeaders", "../../cpp/external-shared/KalaServer/include"
@@ -25,7 +26,6 @@ warninglevel: normal
 customflags: export-compile-commands, export-vscode-sln
 
 #profile debug-windows
-compiler: clang++
 buildtype: debug
 buildpath: "${dir_debug}windows"
 links: ${links_win}, "${dir_ks_deb}/${name_ks}d.lib"
@@ -33,7 +33,6 @@ postbuildaction: if exist "${dir_debug}windows/content" rmdir /s /q "${dir_debug
 postbuildaction: xcopy "content" "${dir_debug}windows/content" /e /i /y
 
 #profile release-windows
-compiler: clang++
 buildtype: minsizerel
 buildpath: "${dir_release}windows"
 links: ${links_win}, "${dir_ks_rel}/${name_ks}.lib"
@@ -41,7 +40,6 @@ postbuildaction: if exist "${dir_release}windows/content" rmdir /s /q "${dir_rel
 postbuildaction: xcopy "content" "${dir_release}windows/content" /e /i /y
 
 #profile debug-linux
-compiler: clang++
 buildtype: debug
 buildpath: "${dir_debug}linux"
 links: ssl, crypto, "${dir_ks_deb}/lib${name_ks}d.a"
@@ -52,7 +50,6 @@ postbuildaction: ${comm_objcopy} ${dir_debug}linux/${name_bin}
 postbuildaction: ${comm_setcap} ${dir_debug}linux/${name_bin}
 
 #profile release-linux
-compiler: clang++
 buildtype: minsizerel
 buildpath: "${dir_release}linux"
 links: ssl, crypto, "${dir_ks_rel}/lib${name_ks}.a"
