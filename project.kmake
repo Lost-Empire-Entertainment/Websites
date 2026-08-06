@@ -45,23 +45,23 @@ links: "${dir_ks_rel}/${name_ks}.lib", ${links_win}
 postbuildaction: if exist "${dir_release}windows/content" rmdir /s /q "${dir_release}windows/content"
 postbuildaction: xcopy "content" "${dir_release}windows/content" /e /i /y
 
-#profile debug-win-on-linux
+#profile debug-windows-gnu
 targettype: windows-gnu
 buildtype: debug
-buildpath: "${dir_debug}win-on-linux"
+buildpath: "${dir_debug}windows-gnu"
 links: "${dir_ks_deb}/${name_ks}-gnud.lib", ${links_win_on_linux_only}
-postbuildaction: cp "${lib_libgcc}" "${dir_debug}win-on-linux"
-postbuildaction: cp "${lib_libstdcpp}" "${dir_debug}win-on-linux"
-postbuildaction: cp "${lib_libwinp}" "${dir_debug}win-on-linux"
+postbuildaction: cp "${lib_libgcc}" "${dir_debug}windows-gnu"
+postbuildaction: cp "${lib_libstdcpp}" "${dir_debug}windows-gnu"
+postbuildaction: cp "${lib_libwinp}" "${dir_debug}windows-gnu"
 
-#profile release-win-on-linux
+#profile release-windows-gnu
 targettype: windows-gnu
 buildtype: minsizerel
-buildpath: "${dir_release}win-on-linux"
+buildpath: "${dir_release}windows-gnu"
 links: "${dir_ks_rel}/${name_ks}-gnu.lib", ${links_win_on_linux_only}
-postbuildaction: cp "${lib_libgcc}" "${dir_release}win-on-linux"
-postbuildaction: cp "${lib_libstdcpp}" "${dir_release}win-on-linux"
-postbuildaction: cp "${lib_libwinp}" "${dir_release}win-on-linux"
+postbuildaction: cp "${lib_libgcc}" "${dir_release}windows-gnu"
+postbuildaction: cp "${lib_libstdcpp}" "${dir_release}windows-gnu"
+postbuildaction: cp "${lib_libwinp}" "${dir_release}windows-gnu"
 
 #profile debug-linux
 buildtype: debug
