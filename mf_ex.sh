@@ -42,6 +42,7 @@ OUT_DIR=out/${OUT_NAME}-${OUT_VER}
 README=README.md
 LICENSE=LICENSE.md
 DOCS=docs
+CONTENT=content
 
 #
 # Core stuff
@@ -56,6 +57,7 @@ mkdir "${OUT_DIR}"
 mf --f "${README}" --t "${OUT_DIR}/${README}"
 mf --f "${LICENSE}" --t "${OUT_DIR}/${LICENSE}"
 mf --f "${DOCS}" --t "${OUT_DIR}"
+mf --f "${CONTENT}" --t "${OUT_DIR}"
 
 # The binary
 if [ ! -f "${EXE_ORIGIN}/${EXE_NAME}${EXE_EXT}" ]; then

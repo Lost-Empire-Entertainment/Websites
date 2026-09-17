@@ -1,57 +1,31 @@
-# Lost Empire Entertainment Non-Commercial Source License 1.0
+# Lost Empire Entertainment Free License 1.0
 
-## 1. Permission to Use
-You may use, study, modify, and experiment with the Websites Repository for personal, educational, and other non-commercial purposes.
+Copyright (c) 2026 **Lost Empire Entertainment**
 
-You may share the repository, in whole or in part, including modified versions, for non-commercial purposes only, provided this license is included in full.
+## Definitions
+- **The Licensor** refers to the copyright holder(s).
+- **The Repository** refers to the parent directory of the License and all its content in its original form.
+- **The Software** refers to the binary executable(s) built from the **Repository**.
+- **User-Created Work** refers to any application, game, mod, asset pack, or other derivative output developed using the **Software**, excluding the **Repository** and the **Software** themselves.
 
-## 2. Strict Non-Commercial Use
-The Websites Repository may not be used for any commercial purpose.
+## 1. Scope
 
-You may not sell, license, monetize, sublicense, bundle, embed, or otherwise commercially distribute:
+This license applies to all source code, binaries and assets contained in the **Repository**, excluding **User-Created work**.
 
-- The original repository
-- Any modified version
-- Any compiled or built output
-- Any derivative work based on the repository
-- Any combination of this repository with other software
+## 2. Free Use
+You are free to download, install, and use the **Software** for the purpose of creating **User-Created Works**. You retain full ownership of **User-Created Works**. You owe **The Licensor** no fees or royalties for publishing, selling, or distributing **User-Created Works** created with the **Software**.
 
-Modifying files, renaming components, restructuring the project, or building binaries does not grant any right to commercial use or distribution.
+## 3. No Commercial Transfer
+You may not sell, sublicense, redistribute, or otherwise commercially transfer the **Software** or any part of the **Repository** (source, binaries, or bundled assets covered by this license), modified or unmodified. Commercial distribution is permitted only for **User-Created Works**.
 
-## 3. Ownership
-You retain ownership only of original content that you create independently and add to the `content` folder.
+## 4. Modification & Attribution
+You may modify the **Repository** for personal or internal use. If you distribute modified versions (forks, public builds), you must:
+- Clearly attribute **The Licensor** as original developers.
+- Retain all copyright and license notices.
+- Prominently state your version is modified and not official.
 
-You do not gain ownership of:
+## 5. No Warranty & Limitation of Liability
+THE REPOSITORY AND SOFTWARE ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT. IN NO EVENT SHALL THE LICENSOR OR CONTRIBUTORS BE LIABLE FOR ANY CLAIM, DAMAGES, OR LIABILITY ARISING FROM USE OF THE REPOSITORY, SOFTWARE, OR USER-CREATED WORKS, WHETHER IN CONTRACT, TORT, OR OTHERWISE.
 
-- Any part of the original repository
-- Any modified version of original repository files
-- Any derivative work based on original repository files
-- Any compiled or built output derived from the repository
-
-All source code, structure, framework logic, layout systems, and files originating from the repository remain the exclusive property of Lost Empire Entertainment, even if modified.
-
-## 4. Third-Party Content
-Some files or assets within the repository (including the `content` folder) may originate from third parties.
-
-Such third-party content is governed by its own licenses.
-
-This license does not grant any rights to third-party materials, and you are responsible for complying with any applicable third-party terms.
-
-Lost Empire Entertainment disclaims responsibility for third-party content included in the repository.
-
-## 5. Attribution & Notices
-You must not remove or alter copyright, attribution, or proprietary notices.
-
-If you distribute the repository or a modified version, you must retain this license and credit Lost Empire Entertainment.
-
-You may not use the name, logo, or branding of Lost Empire Entertainment to promote modified versions without written permission.
-
-## 6. No Warranty
-The Websites Repository is provided “as is”, without warranty of any kind.
-
-You assume all risks from using or modifying it.
-
-Lost Empire Entertainment is not liable for any damages, losses, or claims arising from its use.
-
-## 7. Termination
-If you violate any term of this license, your rights to use the Websites Repository are immediately and automatically revoked.
+## 6. Termination
+This license terminates automatically upon breach. Upon termination, you must cease use/distribution of the **Software** and **Repository**, but may continue using and distributing **User-Created Works** created prior to termination.
