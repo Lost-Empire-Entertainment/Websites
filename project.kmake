@@ -4,11 +4,9 @@
 
 #references
 name_bin: website-backend
-dir_release: build/release-
-dir_debug: build/debug-
+dir_release: build/temp/release-
+dir_debug: build/temp/debug-
 name_ks: kalaserver
-dir_ks_rel: ../../cpp/external-shared/KalaServer/release
-dir_ks_deb: ../../cpp/external-shared/KalaServer/debug
 links_win: Ws2_32, Shell32, Ole32
 links_win_on_linux_only: winpthread, ws2_32
 links_linux: ssl, crypto
@@ -26,7 +24,7 @@ standard: c++20
 binaryname: ${name_bin}
 binarytype: executable
 sources: "server/src"
-headers: "../../cpp/external-shared/KalaHeaders/include", "../../cpp/external-shared/KalaServer/include"
+headers: "external/kalaheaders/include", "external/kalaserver/include"
 defines: LIB_STATIC
 warninglevel: normal
 customflags: export-compile-commands, export-vscode-sln
@@ -34,14 +32,14 @@ customflags: export-compile-commands, export-vscode-sln
 #profile debug-windows
 buildtype: debug
 buildpath: "${dir_debug}windows"
-links: "${dir_ks_deb}/${name_ks}d.lib", ${links_win}
+links: "external/kalaserver/${name_ks}d.lib", ${links_win}
 postbuildaction: if exist "${dir_debug}windows/content" rmdir /s /q "${dir_debug}windows/content"
 postbuildaction: xcopy "content" "${dir_debug}windows/content" /e /i /y
 
 #profile release-windows
 buildtype: minsizerel
 buildpath: "${dir_release}windows"
-links: "${dir_ks_rel}/${name_ks}.lib", ${links_win}
+links: "external/kalaserver/${name_ks}.lib", ${links_win}
 postbuildaction: if exist "${dir_release}windows/content" rmdir /s /q "${dir_release}windows/content"
 postbuildaction: xcopy "content" "${dir_release}windows/content" /e /i /y
 
@@ -49,7 +47,7 @@ postbuildaction: xcopy "content" "${dir_release}windows/content" /e /i /y
 targettype: windows-gnu
 buildtype: debug
 buildpath: "${dir_debug}windows-gnu"
-links: "${dir_ks_deb}/${name_ks}-gnud.lib", ${links_win_on_linux_only}
+links: "external/kalaserver/${name_ks}-gnud.lib", ${links_win_on_linux_only}
 postbuildaction: cp "${lib_libgcc}" "${dir_debug}windows-gnu"
 postbuildaction: cp "${lib_libstdcpp}" "${dir_debug}windows-gnu"
 postbuildaction: cp "${lib_libwinp}" "${dir_debug}windows-gnu"
@@ -58,7 +56,7 @@ postbuildaction: cp "${lib_libwinp}" "${dir_debug}windows-gnu"
 targettype: windows-gnu
 buildtype: minsizerel
 buildpath: "${dir_release}windows-gnu"
-links: "${dir_ks_rel}/${name_ks}-gnu.lib", ${links_win_on_linux_only}
+links: "external/kalaserver/${name_ks}-gnu.lib", ${links_win_on_linux_only}
 postbuildaction: cp "${lib_libgcc}" "${dir_release}windows-gnu"
 postbuildaction: cp "${lib_libstdcpp}" "${dir_release}windows-gnu"
 postbuildaction: cp "${lib_libwinp}" "${dir_release}windows-gnu"
@@ -66,7 +64,7 @@ postbuildaction: cp "${lib_libwinp}" "${dir_release}windows-gnu"
 #profile debug-linux
 buildtype: debug
 buildpath: "${dir_debug}linux"
-links: "${dir_ks_deb}/lib${name_ks}d.a", ${links_linux}
+links: "external/kalaserver/lib${name_ks}d.a", ${links_linux}
 postbuildaction: rm -rf ${dir_debug}linux/content && cp -r content ${dir_debug}linux
 //strips stupid avx requirements that cachyos seems to add for no reason
 postbuildaction: ${comm_objcopy} ${dir_debug}linux/${name_bin}
@@ -76,7 +74,7 @@ postbuildaction: ${comm_setcap} ${dir_debug}linux/${name_bin}
 #profile release-linux
 buildtype: minsizerel
 buildpath: "${dir_release}linux"
-links: "${dir_ks_rel}/lib${name_ks}.a", ${links_linux}
+links: "external/kalaserver/lib${name_ks}.a", ${links_linux}
 postbuildaction: rm -rf ${dir_release}linux/content && cp -r content ${dir_release}linux
 //strips stupid avx requirements that cachyos seems to add for no reason
 postbuildaction: ${comm_objcopy} ${dir_release}linux/${name_bin}
